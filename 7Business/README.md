@@ -1,22 +1,94 @@
-# 7Business
+# 7Business - Gestão Inteligente de Agendamentos
 
-Estrutura inicial para um projeto React + TypeScript usando Vite, Tailwind CSS e Lucide React.
+Plataforma SaaS moderna para gerenciamento de agendamentos para Salões, Oficinas e Clínicas.
 
-Como usar
-1. Instalar dependências:
-   - npm install
+## 🚀 Começar Rápido
 
-2. Rodar em desenvolvimento:
-   - npm run dev
+```bash
+npm install
+npm run dev
+```
 
-3. Build de produção:
-   - npm run build
-   - npm run preview
+Acesse: `http://localhost:5173`
 
-Scripts úteis
-- npm run type-check  -> apenas checagem de tipos
-- npm run lint        -> eslint (falha se houver warnings ou erros)
-- npm run format      -> prettier
+## 📝 Login de Teste
+
+| Tipo | Email | Senha |
+|------|-------|-------|
+| 💇‍♀️ Salão | `beauty_salon@7business.com` | `senha123` |
+| 🔧 Oficina | `auto_center@7business.com` | `senha123` |
+| 🏥 Clínica | `clinic@7business.com` | `senha123` |
+
+## ✨ Features Principais
+
+✅ **Login Elegante** - Validação em tempo real, toggle de senha, "Lembrar-me"
+✅ **Dashboard Personalizado** - 3 tipos diferentes por categoria
+✅ **Responsivo** - Mobile, tablet e desktop
+✅ **Persistência** - localStorage para manter sessão
+✅ **Type-Safe** - TypeScript completo
+✅ **Sem Dependências** - Validação custom
+
+## 📁 Estrutura
+
+```
+src/
+├── components/
+│   ├── auth/              ← Sistema de Login
+│   │   └── Login.tsx
+│   ├── dashboard/         ← Dashboards Personalizados
+│   │   └── DashboardRouter.tsx
+│   └── layout/            ← Landing Page
+│
+├── services/
+│   └── authService.ts     ← Mock de Autenticação
+│
+└── schemas/
+    └── validation.ts      ← Validações
+```
+
+## 📖 Documentação
+
+Veja os arquivos em `src/components/auth/` para documentação completa:
+
+- **README.md** - Começar aqui
+- **QUICK_REFERENCE.md** - Referência rápida
+- **TESTING_GUIDE.md** - Como testar
+- **CODE_EXAMPLES.md** - 8 exemplos de código
+
+## 🔧 Scripts
+
+```bash
+npm run dev         # Inicia servidor dev
+npm run build       # Build para produção
+npm run preview     # Preview do build
+npm run type-check  # Verifica tipos TypeScript
+npm run lint        # Linter (ESLint)
+npm run format      # Formata com Prettier
+```
+
+## 📚 Documentação
+
+- [Guia de Autenticação](./src/components/auth/AUTH_GUIDE.md)
+- [Guia de Teste](./src/components/auth/TESTING_GUIDE.md)
+- [Exemplos de Código](./src/components/auth/CODE_EXAMPLES.md)
+- [Checklist](./CHECKLIST_LOGIN_DASHBOARD.md)
+
+## 🎯 Próximos Passos
+
+- [ ] Formulário de Cadastro
+- [ ] Recuperação de Senha
+- [ ] Integração com API Real
+- [ ] React Hook Form + Zod
+- [ ] OAuth (Google, GitHub)
+
+## 📞 Suporte
+
+Veja o arquivo `CHECKLIST_LOGIN_DASHBOARD.md` para troubleshooting e perguntas frequentes.
+
+---
+
+**Status**: ✅ Pronto para usar
+**Última atualização**: Janeiro 22, 2026
 
 Docker
 - Para gerar imagem:

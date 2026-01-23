@@ -4,7 +4,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'primary' | 'ghost';
 };
 
-export default function Button({ variant = 'primary', children, ...rest }: Props) {
+function Button({ variant = 'primary', children, ...rest }: Props) {
   const base = 'px-4 py-2 rounded-md font-medium focus:outline-none';
   const styles =
     variant === 'primary'
@@ -16,3 +16,6 @@ export default function Button({ variant = 'primary', children, ...rest }: Props
     </button>
   );
 }
+
+export { Button };
+export default Button;

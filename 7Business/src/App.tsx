@@ -3,9 +3,11 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { Layout } from '@/components/layout/Layout';
 import { Login } from '@/components/auth/Login';
 import { DashboardRouter } from '@/components/dashboard/DashboardRouter';
+import { LandingPage } from '@/components/landing/LandingPage';
+import { BookingPage } from '@/pages/booking/BookingPage';
 import { authService, AuthUser } from '@/services/authService';
 
-type AppView = 'landing' | 'login' | 'dashboard';
+type AppView = 'landing' | 'login' | 'dashboard' | 'booking';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<AppView>('landing');
@@ -28,6 +30,10 @@ export default function App() {
 
   const handleCtaClick = () => {
     setCurrentView('login');
+  };
+
+  const handleBookingClick = () => {
+    setCurrentView('booking');
   };
 
   const handleLoginSuccess = (loggedInUser: AuthUser) => {
@@ -67,7 +73,23 @@ export default function App() {
   return (
     <AuthProvider>
       {currentView === 'landing' && (
-        <Layout onAuthClick={handleAuthClick} onCtaClick={handleCtaClick} />
+        <LandingPage
+          onLoginClick={handleAuthClick}
+          onStartClick={handleCtaClick}
+          onBookingClick={handleBookingClick}
+        />
+      )}
+
+      {currentView === 'booking' && (
+        <div>
+          <button
+            onClick={handleBackToLanding}
+            className="fixed top-4 left-4 z-50 px-4 py-2 bg-white hover:bg-gray-100 text-gray-900 rounded-lg shadow-lg transition"
+          >
+            ← Voltar
+          </button>
+          <BookingPage />
+        </div>
       )}
 
       {currentView === 'login' && (

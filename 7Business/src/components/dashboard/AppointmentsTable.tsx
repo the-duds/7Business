@@ -4,9 +4,18 @@ import { Appointment, AppointmentStatus } from './types';
 
 interface AppointmentsTableProps {
   appointments: Appointment[];
+  branding?: {
+    name: string;
+    logoUrl: string;
+    primaryColor: string;
+    secondaryColor: string;
+  } | null;
 }
 
-const getStatusBadge = (status: AppointmentStatus) => {
+const getStatusBadge = (
+  status: AppointmentStatus,
+  branding?: { secondaryColor: string } | null
+) => {
   const statusConfig = {
     confirmado: {
       bg: 'bg-green-100',
@@ -32,7 +41,10 @@ const getStatusBadge = (status: AppointmentStatus) => {
   const Icon = config.icon;
 
   return (
-    <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold ${config.bg} ${config.text}`}>
+    <div
+      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold ${config.bg} ${config.text}`}
+      style={branding ? { border: `1px solid ${branding.secondaryColor}` } : undefined}
+    >
       <Icon size={16} />
       {config.label}
     </div>
@@ -41,14 +53,18 @@ const getStatusBadge = (status: AppointmentStatus) => {
 
 export const AppointmentsTable: React.FC<AppointmentsTableProps> = ({
   appointments,
+  branding,
 }) => {
+  const accentStyle = branding ? { color: branding.primaryColor } : undefined;
+  const avatarStyle = branding ? { backgroundColor: branding.primaryColor, color: '#fff' } : undefined;
+  const headerStyle = branding ? { borderColor: branding.secondaryColor } : undefined;
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+      <div className="px-6 py-4 border-b border-slate-200 bg-slate-50" style={headerStyle}>
         <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-          <Clock size={20} className="text-indigo-600" />
-          Próximos Agendamentos
+          <Clock size={20} className="text-indigo-600" style={accentStyle} />
+          Agenda Completa
         </h3>
       </div>
 
@@ -56,7 +72,7 @@ export const AppointmentsTable: React.FC<AppointmentsTableProps> = ({
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-slate-200 bg-slate-50">
+            <tr className="border-b border-slate-200 bg-slate-50" style={headerStyle}>
               <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">
                 Cliente
               </th>
@@ -99,8 +115,11 @@ export const AppointmentsTable: React.FC<AppointmentsTableProps> = ({
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-sm font-semibold text-indigo-600">
+                      <div
+                        className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={avatarStyle}
+                      >
+                        <span className={`text-sm font-semibold ${branding ? 'text-white' : 'text-indigo-600'}`}>
                           {appointment.clientName.charAt(0).toUpperCase()}
                         </span>
                       </div>
@@ -127,9 +146,12 @@ export const AppointmentsTable: React.FC<AppointmentsTableProps> = ({
                       {appointment.duration} min
                     </p>
                   </td>
-                  <td className="px-6 py-4">{getStatusBadge(appointment.status)}</td>
+                  <td className="px-6 py-4">{getStatusBadge(appointment.status, branding)}</td>
                   <td className="px-6 py-4">
-                    <button className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded px-2 py-1">
+                    <button
+                      className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded px-2 py-1"
+                      style={accentStyle}
+                    >
                       Ver
                     </button>
                   </td>
@@ -142,13 +164,10 @@ export const AppointmentsTable: React.FC<AppointmentsTableProps> = ({
 
       {/* Footer */}
       {appointments.length > 0 && (
-        <div className="px-6 py-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+        <div className="px-6 py-4 border-t border-slate-200 bg-slate-50">
           <p className="text-sm text-slate-600">
             Total de {appointments.length} agendamentos
           </p>
-          <button className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors duration-200">
-            Ver Todos →
-          </button>
         </div>
       )}
     </div>

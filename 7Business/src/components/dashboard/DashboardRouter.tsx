@@ -21,6 +21,22 @@ export const DashboardRouter: React.FC<DashboardRouterProps> = ({
   user,
   onLogout,
 }) => {
+  const branding = (() => {
+    const stored = localStorage.getItem('tenantBranding');
+    if (!stored) {
+      return null;
+    }
+
+    try {
+      const brandingMap = JSON.parse(stored) as Record<
+        string,
+        { name: string; logoUrl: string; primaryColor: string; secondaryColor: string }
+      >;
+      return brandingMap[user.company.slug] || null;
+    } catch {
+      return null;
+    }
+  })();
   // Converter AuthUser para DashboardUser
   const dashboardUser: DashboardUser = {
     id: user.id || '1',
@@ -29,5 +45,5 @@ export const DashboardRouter: React.FC<DashboardRouterProps> = ({
     role: 'admin', // Pode ser ajustado baseado em user.role se existir
   };
 
-  return <Dashboard user={dashboardUser} onLogout={onLogout} />;
+  return <Dashboard user={dashboardUser} onLogout={onLogout} branding={branding} />;
 };

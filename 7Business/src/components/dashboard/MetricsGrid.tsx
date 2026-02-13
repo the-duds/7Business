@@ -4,24 +4,38 @@ import { MetricCard as MetricCardType } from './types';
 
 interface MetricsGridProps {
   metrics: MetricCardType[];
+  branding?: {
+    name: string;
+    logoUrl: string;
+    primaryColor: string;
+    secondaryColor: string;
+  } | null;
 }
 
-export const MetricsGrid: React.FC<MetricsGridProps> = ({ metrics }) => {
+export const MetricsGrid: React.FC<MetricsGridProps> = ({ metrics, branding }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {metrics.map((metric) => {
         const Icon = metric.icon;
         const isPositive = metric.isPositive;
+        const iconStyle = branding
+          ? { backgroundColor: branding.primaryColor, color: '#fff' }
+          : undefined;
+        const cardStyle = branding ? { borderColor: branding.secondaryColor } : undefined;
 
         return (
           <div
             key={metric.id}
             className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow duration-200"
+            style={cardStyle}
           >
             {/* Header com ícone */}
             <div className="flex items-start justify-between mb-4">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-                <Icon size={24} className="text-indigo-600" />
+              <div
+                className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center"
+                style={iconStyle}
+              >
+                <Icon size={24} className={branding ? 'text-white' : 'text-indigo-600'} />
               </div>
 
               {/* Change indicator */}

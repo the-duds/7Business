@@ -3,8 +3,10 @@ import {
   LayoutDashboard,
   Calendar,
   Users,
+  Briefcase,
+  Package,
+  UserCog,
   DollarSign,
-  Settings,
   LogOut,
   Menu,
   X,
@@ -17,6 +19,12 @@ interface SidebarProps {
   onLogout: () => void;
   isOpen: boolean;
   onToggle: () => void;
+  branding?: {
+    name: string;
+    logoUrl: string;
+    primaryColor: string;
+    secondaryColor: string;
+  } | null;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -25,6 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onLogout,
   isOpen,
   onToggle,
+  branding,
 }) => {
   const navItems: NavMenuItem[] = [
     {
@@ -49,18 +58,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
       isActive: currentSection === 'clientes',
     },
     {
+      id: 'servicos',
+      label: 'Servicos',
+      icon: Briefcase,
+      href: '#',
+      isActive: currentSection === 'servicos',
+    },
+    {
+      id: 'produtos',
+      label: 'Produtos',
+      icon: Package,
+      href: '#',
+      isActive: currentSection === 'produtos',
+    },
+    {
+      id: 'funcionarios',
+      label: 'Funcionarios',
+      icon: UserCog,
+      href: '#',
+      isActive: currentSection === 'funcionarios',
+    },
+    {
       id: 'financeiro',
       label: 'Financeiro',
       icon: DollarSign,
       href: '#',
       isActive: currentSection === 'financeiro',
-    },
-    {
-      id: 'configuracoes',
-      label: 'Configurações',
-      icon: Settings,
-      href: '#',
-      isActive: currentSection === 'configuracoes',
     },
   ];
 
@@ -69,7 +92,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Mobile Menu Button */}
       <button
         onClick={onToggle}
-        className="fixed md:hidden top-4 left-4 z-40 p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+        className="fixed md:hidden top-4 left-4 z-40 p-2 text-white rounded-lg transition-colors"
+        style={{ background: branding?.primaryColor || '#4f46e5' }}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -87,15 +111,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
         className={`fixed left-0 top-0 h-screen w-64 bg-slate-900 text-white transition-transform duration-300 z-40 ${
           isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         } flex flex-col`}
+        style={branding ? { background: branding.secondaryColor } : undefined}
       >
         {/* Logo Section */}
         <div className="p-6 border-b border-slate-800 flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
-            <span className="text-white font-bold text-lg">7</span>
+          <div
+            className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden"
+            style={{ background: branding?.primaryColor || '#4f46e5' }}
+          >
+            {branding?.logoUrl ? (
+              <img src={branding.logoUrl} alt={branding.name} className="w-8 h-8 object-contain" />
+            ) : (
+              <span className="text-white font-bold text-lg">7</span>
+            )}
           </div>
           <div>
-            <h1 className="font-bold text-lg">7Business</h1>
-            <p className="text-xs text-slate-400">Gestão Inteligente</p>
+            <h1 className="font-bold text-lg">{branding?.name || '7Business'}</h1>
+            <p className="text-xs text-slate-400">Gestao Inteligente</p>
           </div>
         </div>
 
@@ -114,9 +146,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 }}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                   isActive
-                    ? 'bg-indigo-600 text-white shadow-lg'
+                    ? 'text-white shadow-lg'
                     : 'text-slate-300 hover:bg-slate-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900'
                 }`}
+                style={
+                  isActive
+                    ? { background: branding?.primaryColor || '#4f46e5' }
+                    : undefined
+                }
               >
                 <Icon size={20} />
                 <span className="font-medium">{item.label}</span>
@@ -130,6 +167,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button
             onClick={onLogout}
             className="w-full flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900"
+            style={branding ? { background: 'rgba(255,255,255,0.04)' } : undefined}
           >
             <LogOut size={20} />
             <span className="font-medium">Sair</span>

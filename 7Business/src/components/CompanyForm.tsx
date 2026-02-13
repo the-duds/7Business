@@ -1,7 +1,7 @@
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Company, BusinessNiche, WorkingHours } from '../types/company';
+import { Company } from '../types/company';
 import { useState } from 'react';
 
 const companySchema = z.object({
@@ -33,7 +33,7 @@ interface Props {
 
 export function CompanyForm({ initialData, onSubmit, onClose }: Props) {
   const [step, setStep] = useState(1);
-  const { control, handleSubmit, watch, setValue } = useForm<CompanyFormValues>({
+  const { control, handleSubmit, watch } = useForm<CompanyFormValues>({
     resolver: zodResolver(companySchema),
     defaultValues: initialData || {
       nomeFantasia: '',
@@ -53,56 +53,63 @@ export function CompanyForm({ initialData, onSubmit, onClose }: Props) {
   });
 
   const niche = watch('niche');
+  const inputClassName =
+    'bg-slate-50 text-slate-900 p-2.5 rounded-lg w-full border border-slate-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 hover:border-slate-300';
+  const selectClassName =
+    'bg-slate-50 text-slate-900 p-2.5 rounded-lg w-full border border-slate-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 hover:border-slate-300';
+  const timeInputClassName =
+    'bg-slate-50 text-slate-900 p-2.5 rounded-lg w-full border border-slate-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 hover:border-slate-300';
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-slate-900 rounded-lg shadow-xl w-full max-w-2xl p-8">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl p-8 border border-slate-200 relative">
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Step 1: Dados Base */}
           {step === 1 && (
             <div>
-              <h2 className="text-xl font-bold text-indigo-600 mb-4">Dados da Empresa</h2>
+              <h2 className="text-xl font-bold text-slate-900 mb-2">Dados da Empresa</h2>
+              <p className="text-slate-600 mb-4">Informacoes principais da empresa.</p>
               <div className="grid grid-cols-2 gap-4">
                 <Controller
                   name="nomeFantasia"
                   control={control}
                   render={({ field }: { field: any }) => (
-                    <input {...field} placeholder="Nome Fantasia" className="bg-slate-800 text-white p-2 rounded" />
+                    <input {...field} placeholder="Nome Fantasia" className={inputClassName} />
                   )}
                 />
                 <Controller
                   name="documento"
                   control={control}
                   render={({ field }: { field: any }) => (
-                    <input {...field} placeholder="CNPJ/CPF" className="bg-slate-800 text-white p-2 rounded" />
+                    <input {...field} placeholder="CNPJ/CPF" className={inputClassName} />
                   )}
                 />
                 <Controller
                   name="slug"
                   control={control}
                   render={({ field }: { field: any }) => (
-                    <input {...field} placeholder="Subdomínio/Slug" className="bg-slate-800 text-white p-2 rounded" />
+                    <input {...field} placeholder="Subdominio/Slug" className={inputClassName} />
                   )}
                 />
                 <Controller
                   name="telefone"
                   control={control}
                   render={({ field }: { field: any }) => (
-                    <input {...field} placeholder="Telefone (WhatsApp)" className="bg-slate-800 text-white p-2 rounded" />
+                    <input {...field} placeholder="Telefone (WhatsApp)" className={inputClassName} />
                   )}
                 />
                 <Controller
                   name="logoUrl"
                   control={control}
                   render={({ field }: { field: any }) => (
-                    <input {...field} placeholder="Logo URL" className="bg-slate-800 text-white p-2 rounded" />
+                    <input {...field} placeholder="Logo URL" className={inputClassName} />
                   )}
                 />
                 <Controller
                   name="niche"
                   control={control}
                   render={({ field }: { field: any }) => (
-                    <select {...field} className="bg-slate-800 text-white p-2 rounded">
+                    <select {...field} className={selectClassName}>
                       <option value="Beleza">Beleza</option>
                       <option value="Automotivo">Automotivo</option>
                       <option value="Saúde">Saúde</option>
@@ -112,7 +119,11 @@ export function CompanyForm({ initialData, onSubmit, onClose }: Props) {
                 />
               </div>
               <div className="mt-6 flex justify-end">
-                <button type="button" className="bg-indigo-600 px-4 py-2 rounded text-white" onClick={() => setStep(2)}>
+                <button
+                  type="button"
+                  className="px-6 py-2.5 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
+                  onClick={() => setStep(2)}
+                >
                   Próximo
                 </button>
               </div>
@@ -122,15 +133,16 @@ export function CompanyForm({ initialData, onSubmit, onClose }: Props) {
           {/* Step 2: Configuração Dinâmica */}
           {step === 2 && (
             <div>
-              <h2 className="text-xl font-bold text-indigo-600 mb-4">Configuração por Nicho</h2>
+              <h2 className="text-xl font-bold text-slate-900 mb-2">Configuracao por Nicho</h2>
+              <p className="text-slate-600 mb-4">Ajustes extras de acordo com o segmento.</p>
               {niche === 'Automotivo' && (
                 <Controller
                   name="config.exigirPlacaVeiculo"
                   control={control}
                   render={({ field }: { field: any }) => (
-                    <label className="flex items-center gap-2">
-                      <input type="checkbox" {...field} checked={field.value || false} />
-                      Exigir Placa do Veículo no agendamento
+                    <label className="flex items-center gap-2 text-slate-700">
+                      <input type="checkbox" {...field} checked={field.value || false} className="h-4 w-4" />
+                      Exigir Placa do Veiculo no agendamento
                     </label>
                   )}
                 />
@@ -140,18 +152,26 @@ export function CompanyForm({ initialData, onSubmit, onClose }: Props) {
                   name="config.exigirAnamnese"
                   control={control}
                   render={({ field }: { field: any }) => (
-                    <label className="flex items-center gap-2">
-                      <input type="checkbox" {...field} checked={field.value || false} />
-                      Exigir preenchimento de Anamnese prévia
+                    <label className="flex items-center gap-2 text-slate-700">
+                      <input type="checkbox" {...field} checked={field.value || false} className="h-4 w-4" />
+                      Exigir preenchimento de Anamnese previa
                     </label>
                   )}
                 />
               )}
               <div className="mt-6 flex justify-between">
-                <button type="button" className="bg-slate-700 px-4 py-2 rounded text-white" onClick={() => setStep(1)}>
+                <button
+                  type="button"
+                  className="px-6 py-2.5 rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
+                  onClick={() => setStep(1)}
+                >
                   Voltar
                 </button>
-                <button type="button" className="bg-indigo-600 px-4 py-2 rounded text-white" onClick={() => setStep(3)}>
+                <button
+                  type="button"
+                  className="px-6 py-2.5 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
+                  onClick={() => setStep(3)}
+                >
                   Próximo
                 </button>
               </div>
@@ -161,14 +181,15 @@ export function CompanyForm({ initialData, onSubmit, onClose }: Props) {
           {/* Step 3: Horário de Funcionamento */}
           {step === 3 && (
             <div>
-              <h2 className="text-xl font-bold text-indigo-600 mb-4">Horário de Funcionamento</h2>
+              <h2 className="text-xl font-bold text-slate-900 mb-2">Horario de Funcionamento</h2>
+              <p className="text-slate-600 mb-4">Defina os dias e horarios disponiveis.</p>
               <Controller
                 name="workingHours.days"
                 control={control}
                 render={({ field }: { field: any }) => (
                   <div className="flex flex-wrap gap-2">
                     {['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'].map((day) => (
-                      <label key={day} className="flex items-center gap-1">
+                      <label key={day} className="flex items-center gap-1 text-slate-700">
                         <input
                           type="checkbox"
                           checked={field.value.includes(day)}
@@ -179,6 +200,7 @@ export function CompanyForm({ initialData, onSubmit, onClose }: Props) {
                               field.onChange([...field.value, day]);
                             }
                           }}
+                          className="h-4 w-4"
                         />
                         {day}
                       </label>
@@ -191,29 +213,36 @@ export function CompanyForm({ initialData, onSubmit, onClose }: Props) {
                   name="workingHours.opening"
                   control={control}
                   render={({ field }: { field: any }) => (
-                    <input {...field} type="time" className="bg-slate-800 text-white p-2 rounded" />
+                    <input {...field} type="time" className={timeInputClassName} />
                   )}
                 />
                 <Controller
                   name="workingHours.closing"
                   control={control}
                   render={({ field }: { field: any }) => (
-                    <input {...field} type="time" className="bg-slate-800 text-white p-2 rounded" />
+                    <input {...field} type="time" className={timeInputClassName} />
                   )}
                 />
               </div>
               <div className="mt-6 flex justify-between">
-                <button type="button" className="bg-slate-700 px-4 py-2 rounded text-white" onClick={() => setStep(2)}>
+                <button
+                  type="button"
+                  className="px-6 py-2.5 rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
+                  onClick={() => setStep(2)}
+                >
                   Voltar
                 </button>
-                <button type="submit" className="bg-indigo-600 px-4 py-2 rounded text-white">
+                <button
+                  type="submit"
+                  className="px-6 py-2.5 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
+                >
                   Salvar
                 </button>
               </div>
             </div>
           )}
         </form>
-        <button className="absolute top-4 right-4 text-white" onClick={onClose}>✕</button>
+        <button className="absolute top-4 right-4 text-slate-500" onClick={onClose}>✕</button>
       </div>
     </div>
   );

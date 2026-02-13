@@ -23,6 +23,24 @@ export interface Appointment {
   duration: number; // em minutos
 }
 
+export interface ServiceItem {
+  id: string;
+  name: string;
+  duration: number; // em minutos
+}
+
+export interface Employee {
+  id: string;
+  name: string;
+  role?: string;
+  services: ServiceItem[];
+}
+
+export interface StaffSchedule {
+  employee: Employee;
+  appointments: Appointment[];
+}
+
 export interface MetricCard {
   id: string;
   title: string;

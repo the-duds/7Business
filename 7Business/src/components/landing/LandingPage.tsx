@@ -3,19 +3,21 @@ import { Menu, X } from 'lucide-react';
 
 interface LandingPageProps {
   onLoginClick?: () => void;
+  onAdminLoginClick?: () => void;
   onStartClick?: () => void;
   onBookingClick?: () => void;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({
   onLoginClick = () => {},
+  onAdminLoginClick = () => {},
   onStartClick = () => {},
   onBookingClick = () => {},
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white pt-24">
       {/* Header Fixo com Glassmorphism */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
@@ -49,7 +51,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               onClick={onLoginClick}
               className="px-6 py-2.5 border-2 border-indigo-600 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 transition-colors duration-200"
             >
-              Login
+              Login Empresa
+            </button>
+            <button
+              onClick={onAdminLoginClick}
+              className="px-6 py-2.5 border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-100 transition-colors duration-200"
+            >
+              Login Admin
             </button>
             <button
               onClick={onStartClick}
@@ -89,7 +97,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   onClick={onLoginClick}
                   className="w-full px-6 py-2.5 border-2 border-indigo-600 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 transition-colors"
                 >
-                  Login
+                  Login Empresa
+                </button>
+                <button
+                  onClick={onAdminLoginClick}
+                  className="w-full px-6 py-2.5 border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-100 transition-colors"
+                >
+                  Login Admin
                 </button>
                 <button
                   onClick={onStartClick}
@@ -104,10 +118,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white">
+      <section className="pt-16 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl sm:text-6xl font-bold text-slate-900 mb-6">
-            Gestão inteligente de
+            Gestão inteligente
             <span className="block text-indigo-600">para qualquer negócio</span>
           </h1>
 
@@ -128,6 +142,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               Comece Agora
             </button>
             <button
+              onClick={onLoginClick}
+              className="px-8 py-4 border-2 border-indigo-600 text-indigo-600 font-semibold text-lg rounded-lg hover:bg-indigo-50 transition-colors duration-200"
+            >
+              Login Empresa
+            </button>
+            <button
               onClick={() => {
                 const section = document.getElementById('recursos');
                 section?.scrollIntoView({ behavior: 'smooth' });
@@ -137,6 +157,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               Saber Mais
             </button>
           </div>
+          <button
+            onClick={onAdminLoginClick}
+            className="mt-6 text-sm text-slate-600 hover:text-indigo-600 transition-colors"
+          >
+            Acesso exclusivo para super admin
+          </button>
         </div>
       </section>
 

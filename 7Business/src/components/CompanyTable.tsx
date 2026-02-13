@@ -16,59 +16,84 @@ const nicheColors: Record<string, string> = {
 
 export function CompanyTable({ companies, onEdit, onConfig, onToggleStatus }: Props) {
   return (
-    <div className="bg-slate-900 rounded-lg p-6 shadow-lg">
-      <table className="min-w-full text-slate-100">
-        <thead>
-          <tr>
-            <th className="px-4 py-2">Logo</th>
-            <th className="px-4 py-2">Nome</th>
-            <th className="px-4 py-2">Nicho</th>
-            <th className="px-4 py-2">Status</th>
-            <th className="px-4 py-2">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {companies.map((company) => (
-            <tr key={company.id} className="border-b border-slate-700">
-              <td className="px-4 py-2">
-                <img src={company.logoUrl} alt={company.nomeFantasia} className="w-10 h-10 rounded-full" />
-              </td>
-              <td className="px-4 py-2">{company.nomeFantasia}</td>
-              <td className="px-4 py-2">
-                <span className={`px-2 py-1 rounded text-white ${nicheColors[company.niche]}`}>{company.niche}</span>
-              </td>
-              <td className="px-4 py-2">
-                <span className={`px-2 py-1 rounded ${company.status === 'Ativo' ? 'bg-indigo-600' : 'bg-slate-700'}`}>{company.status}</span>
-              </td>
-              <td className="px-4 py-2 flex gap-2">
-                <button
-                  className="bg-indigo-600 hover:bg-indigo-700 px-3 py-1 rounded text-white"
-                  onClick={() => onEdit(company)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="bg-slate-700 hover:bg-slate-800 px-3 py-1 rounded text-white"
-                  onClick={() => onConfig(company)}
-                >
-                  Configurar
-                </button>
-                <label className="flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={company.status === 'Ativo'}
-                    onChange={() => onToggleStatus(company)}
-                    className="sr-only"
-                  />
-                  <span className={`w-10 h-5 flex items-center bg-slate-700 rounded-full p-1 transition ${company.status === 'Ativo' ? 'bg-indigo-600' : 'bg-slate-700'}`}>
-                    <span className={`bg-white w-4 h-4 rounded-full shadow transform transition ${company.status === 'Ativo' ? 'translate-x-5' : ''}`}></span>
-                  </span>
-                </label>
-              </td>
+    <div className="bg-white rounded-2xl shadow-lg border border-slate-200">
+      <div className="overflow-x-auto">
+        <table className="min-w-full text-slate-700">
+          <thead className="bg-slate-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-slate-600">Logo</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-slate-600">Nome</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-slate-600">Nicho</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-slate-600">Status</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-slate-600">Acoes</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {companies.map((company) => (
+              <tr key={company.id} className="hover:bg-slate-50 transition-colors">
+                <td className="px-6 py-4">
+                  <img src={company.logoUrl} alt={company.nomeFantasia} className="w-10 h-10 rounded-full" />
+                </td>
+                <td className="px-6 py-4 font-medium text-slate-900">{company.nomeFantasia}</td>
+                <td className="px-6 py-4">
+                  <span className={`px-2.5 py-1 rounded-full text-white text-xs font-semibold ${nicheColors[company.niche]}`}>{company.niche}</span>
+                </td>
+                <td className="px-6 py-4">
+                  <span
+                    className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+                      company.status === 'Ativo'
+                        ? 'bg-emerald-100 text-emerald-700'
+                        : 'bg-slate-200 text-slate-600'
+                    }`}
+                  >
+                    {company.status}
+                  </span>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      className="px-3 py-1.5 rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-colors text-sm"
+                      onClick={() => onEdit(company)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="px-3 py-1.5 rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-sm"
+                      onClick={() => onConfig(company)}
+                    >
+                      Configurar
+                    </button>
+                    <label className="flex items-center cursor-pointer gap-2 text-sm text-slate-600">
+                      <input
+                        type="checkbox"
+                        checked={company.status === 'Ativo'}
+                        onChange={() => onToggleStatus(company)}
+                        className="sr-only"
+                      />
+                      <span
+                        className={`w-10 h-5 flex items-center rounded-full p-1 transition ${
+                          company.status === 'Ativo' ? 'bg-indigo-600' : 'bg-slate-300'
+                        }`}
+                      >
+                        <span
+                          className={`bg-white w-4 h-4 rounded-full shadow transform transition ${
+                            company.status === 'Ativo' ? 'translate-x-5' : ''
+                          }`}
+                        ></span>
+                      </span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {companies.length === 0 && (
+        <div className="px-6 py-10 text-center text-slate-500">
+          Nenhuma empresa cadastrada ainda.
+        </div>
+      )}
     </div>
   );
 }
